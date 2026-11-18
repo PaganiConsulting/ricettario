@@ -1,0 +1,69 @@
+---
+layout: default
+---
+<article class="ricetta">
+  <p class="briciole"><a href="{{ '/' | relative_url }}">Tutte le ricette</a> › {{ page.categoria }}</p>
+  <h1>{{ page.title }}</h1>
+
+  {% if page.porzioni or page.tempo %}
+  <ul class="dati">
+    {% if page.porzioni %}<li><span class="etichetta">Porzioni</span> {{ page.porzioni }} {% if page.porzioni == 1 %}persona{% else %}persone{% endif %}</li>{% endif %}
+    {% if page.tempo %}<li><span class="etichetta">Tempo</span> {% include tempo.html minuti=page.tempo %}</li>{% endif %}
+  </ul>
+  {% endif %}
+
+  {% if page.foto %}
+  <img class="foto-grande" src="{{ page.foto | relative_url }}" alt="{{ page.title }}">
+  {% endif %}
+
+  {% if page.introduzione %}
+  <div class="introduzione">{{ page.introduzione | markdownify }}</div>
+  {% endif %}
+
+  <div class="colonne">
+    <section class="ingredienti" aria-labelledby="titolo-ingredienti">
+      <h2 id="titolo-ingredienti">Ingredienti</h2>
+      <ul>
+        {% for ingrediente in page.ingredienti %}<li>{{ ingrediente }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="procedimento" aria-labelledby="titolo-procedimento">
+      <h2 id="titolo-procedimento">Procedimento</h2>
+      <ol>
+        {% for passaggio in page.passaggi %}<li>{{ passaggio | markdownify }}</li>
+        {% endfor %}
+      </ol>
+    </section>
+  </div>
+
+  {% if page.note %}
+  <section class="note" aria-labelledby="titolo-note">
+    <h2 id="titolo-note">Note e varianti</h2>
+    {{ page.note | markdownify }}
+  </section>
+  {% endif %}
+
+  {{ content }}
+</article>
+
+{%- comment -%} Dati strutturati Recipe (schema.org) letti da Google {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Recipe",
+  "name": {{ page.title | jsonify }},
+  {% if page.foto %}"image": [{{ page.foto | absolute_url | jsonify }}],{% endif %}
+  {% if page.introduzione %}"description": {{ page.introduzione | strip_newlines | jsonify }},{% endif %}
+  {% if site.data.sito.autore and site.data.sito.autore != "" %}"author": { "@type": "Person", "name": {{ site.data.sito.autore | jsonify }} },{% endif %}
+  {% if page.categoria %}"recipeCategory": {{ page.categoria | jsonify }},{% endif %}
+  {% if page.porzioni %}"recipeYield": "{{ page.porzioni | plus: 0 }}",{% endif %}
+  {% if page.tempo %}"totalTime": "PT{{ page.tempo | plus: 0 }}M",{% endif %}
+  "recipeIngredient": {{ page.ingredienti | jsonify }},
+  "recipeInstructions": [
+    {% for passaggio in page.passaggi %}{ "@type": "HowToStep", "text": {{ passaggio | strip_newlines | jsonify }} }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+}
+</script>
