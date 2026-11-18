@@ -1,0 +1,72 @@
+---
+layout: default
+---
+{% assign ricette = site.ricette | sort: "title" %}
+{% assign categorie = ricette | map: "categoria" | uniq | sort %}
+
+<div class="strumenti" role="search">
+  <label for="cerca" class="nascosto">Cerca una ricetta</label>
+  <input id="cerca" type="search" placeholder="Cerca per nome o ingrediente…" autocomplete="off">
+  <div class="filtri" role="group" aria-label="Filtra per categoria">
+    <button type="button" class="filtro attivo" data-categoria="" aria-pressed="true">Tutte</button>
+    {% for c in categorie %}<button type="button" class="filtro" data-categoria="{{ c }}" aria-pressed="false">{{ c }}</button>
+    {% endfor %}
+  </div>
+</div>
+
+<p id="conteggio" class="piccolo" aria-live="polite">{{ ricette.size }} ricette</p>
+
+<ul class="griglia">
+  {% for r in ricette %}
+  <li class="scheda" data-categoria="{{ r.categoria }}" data-testo="{{ r.title | downcase | escape }} {{ r.ingredienti | join: ' ' | downcase | escape }}">
+    <a href="{{ r.url | relative_url }}">
+      {% if r.foto %}
+      <img src="{{ r.foto | relative_url }}" alt="" loading="lazy">
+      {% else %}
+      <div class="senza-foto" aria-hidden="true">{{ r.title | slice: 0 }}</div>
+      {% endif %}
+      <span class="categoria">{{ r.categoria }}</span>
+      <span class="nome">{{ r.title }}</span>
+      {% if r.tempo %}<span class="piccolo">{% include tempo.html minuti=r.tempo %}</span>{% endif %}
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+<p id="nessuna" class="nessuna" hidden>Nessuna ricetta trovata.</p>
+
+<script>
+(function () {
+  var campo = document.getElementById('cerca');
+  var bottoni = document.querySelectorAll('.filtro');
+  var schede = document.querySelectorAll('.scheda');
+  var conteggio = document.getElementById('conteggio');
+  var nessuna = document.getElementById('nessuna');
+  var categoria = '';
+
+  function aggiorna() {
+    var q = campo.value.trim().toLowerCase();
+    var visibili = 0;
+    schede.forEach(function (s) {
+      var ok = (!categoria || s.dataset.categoria === categoria) &&
+               (!q || s.dataset.testo.indexOf(q) !== -1);
+      s.hidden = !ok;
+      if (ok) visibili++;
+    });
+    conteggio.textContent = visibili === 1 ? '1 ricetta' : visibili + ' ricette';
+    nessuna.hidden = visibili !== 0;
+  }
+
+  campo.addEventListener('input', aggiorna);
+  bottoni.forEach(function (b) {
+    b.addEventListener('click', function () {
+      categoria = b.dataset.categoria;
+      bottoni.forEach(function (x) {
+        var attivo = x === b;
+        x.classList.toggle('attivo', attivo);
+        x.setAttribute('aria-pressed', attivo ? 'true' : 'false');
+      });
+      aggiorna();
+    });
+  });
+})();
+</script>
