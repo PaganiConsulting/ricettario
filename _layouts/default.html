@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.data.sito.titolo }}</title>
+  <meta name="description" content="{% if page.introduzione %}{{ page.introduzione | strip_newlines | truncate: 155 }}{% else %}{{ site.data.sito.descrizione }}{% endif %}">
+  <link rel="stylesheet" href="{{ '/assets/stile.css' | relative_url }}">
+</head>
+<body>
+  <a class="salta" href="#contenuto">Vai al contenuto</a>
+  <header class="testata">
+    <div class="contenitore">
+      <a class="marchio" href="{{ '/' | relative_url }}">{{ site.data.sito.titolo }}</a>
+      {% if site.data.sito.descrizione %}<p class="sottotitolo">{{ site.data.sito.descrizione }}</p>{% endif %}
+    </div>
+  </header>
+
+  <main id="contenuto" class="contenitore">
+    {{ content }}
+  </main>
+
+  <footer class="piede">
+    <div class="contenitore">
+      {% if site.data.sito.paypal and site.data.sito.paypal != "" %}
+      <section class="caffe" aria-labelledby="titolo-caffe">
+        <h2 id="titolo-caffe">Offrimi un caffè</h2>
+        <p>{{ site.data.sito.testo_caffe }}</p>
+        <a class="pulsante" href="{{ site.data.sito.paypal }}" target="_blank" rel="noopener">Offrimi un caffè con PayPal</a>
+        <p class="piccolo">È un gesto volontario: tutte le ricette restano gratuite per tutti.</p>
+      </section>
+      {% endif %}
+      <p class="piccolo">{{ site.data.sito.titolo }} · {{ site.time | date: "%Y" }}</p>
+    </div>
+  </footer>
+</body>
+</html>
