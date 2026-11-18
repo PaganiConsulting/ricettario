@@ -1,0 +1,115 @@
+:root {
+  --fondo: #fbf8f3;
+  --carta: #ffffff;
+  --testo: #2b2620;
+  --tenue: #6b6158;
+  --accento: #a3402a;
+  --accento-scuro: #7f2f1e;
+  --bordo: #e6ddd1;
+  --raggio: 10px;
+  --serif: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--testo);
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+a { color: var(--accento); }
+a:hover { color: var(--accento-scuro); }
+:focus-visible { outline: 3px solid var(--accento); outline-offset: 2px; }
+
+.contenitore { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+.salta { position: absolute; left: -9999px; }
+.salta:focus { left: 12px; top: 12px; background: var(--carta); padding: 8px 12px; z-index: 10; }
+.nascosto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* Testata */
+.testata { border-bottom: 1px solid var(--bordo); padding: 28px 0 22px; margin-bottom: 28px; }
+.marchio { font-family: var(--serif); font-size: 2rem; color: var(--testo); text-decoration: none; }
+.sottotitolo { margin: 4px 0 0; color: var(--tenue); }
+
+h1, h2 { font-family: var(--serif); font-weight: normal; line-height: 1.25; }
+h1 { font-size: 2.2rem; margin: 6px 0 14px; }
+h2 { font-size: 1.4rem; margin: 0 0 12px; }
+
+.piccolo { font-size: 0.9rem; color: var(--tenue); }
+
+/* Ricerca e filtri */
+.strumenti { margin-bottom: 14px; }
+#cerca {
+  width: 100%; padding: 12px 14px; font: inherit;
+  border: 1px solid var(--bordo); border-radius: var(--raggio); background: var(--carta);
+}
+.filtri { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.filtro {
+  font: inherit; font-size: 0.95rem; padding: 6px 14px; cursor: pointer;
+  border: 1px solid var(--bordo); border-radius: 999px; background: var(--carta); color: var(--testo);
+}
+.filtro.attivo { background: var(--accento); border-color: var(--accento); color: #fff; }
+
+/* Griglia delle ricette */
+.griglia {
+  list-style: none; padding: 0; margin: 0 0 40px;
+  display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+}
+.scheda a {
+  display: flex; flex-direction: column; gap: 4px; height: 100%;
+  background: var(--carta); border: 1px solid var(--bordo); border-radius: var(--raggio);
+  overflow: hidden; text-decoration: none; color: var(--testo); padding-bottom: 14px;
+}
+.scheda a:hover { border-color: var(--accento); }
+.scheda img, .senza-foto { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; margin-bottom: 8px; }
+.senza-foto {
+  display: grid; place-items: center; background: #f1e9de; color: var(--accento);
+  font-family: var(--serif); font-size: 3rem;
+}
+.scheda .categoria, .scheda .nome, .scheda .piccolo { padding: 0 14px; }
+.categoria { font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tenue); }
+.nome { font-family: var(--serif); font-size: 1.25rem; line-height: 1.3; }
+.nessuna { color: var(--tenue); }
+
+/* Pagina ricetta */
+.ricetta { max-width: 860px; margin-bottom: 40px; }
+.briciole { margin: 0; font-size: 0.95rem; color: var(--tenue); }
+.dati { list-style: none; padding: 0; margin: 0 0 18px; display: flex; flex-wrap: wrap; gap: 10px 24px; }
+.etichetta { font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tenue); margin-right: 4px; }
+.foto-grande { width: 100%; border-radius: var(--raggio); margin: 4px 0 18px; }
+.introduzione { font-size: 1.15rem; font-family: var(--serif); }
+.colonne { display: grid; gap: 28px; grid-template-columns: 1fr; margin-top: 18px; }
+@media (min-width: 760px) { .colonne { grid-template-columns: 1fr 1.8fr; } }
+.ingredienti {
+  background: var(--carta); border: 1px solid var(--bordo); border-radius: var(--raggio);
+  padding: 18px 20px; align-self: start;
+}
+.ingredienti ul { margin: 0; padding-left: 20px; }
+.ingredienti li { margin-bottom: 6px; }
+.procedimento ol { margin: 0; padding-left: 22px; }
+.procedimento li { margin-bottom: 12px; padding-left: 4px; }
+.procedimento li p, .note p { margin: 0 0 8px; }
+.note { margin-top: 28px; border-top: 1px solid var(--bordo); padding-top: 18px; }
+
+/* Piede e caffè */
+.piede { border-top: 1px solid var(--bordo); padding: 28px 0; margin-top: 20px; }
+.caffe { text-align: center; margin-bottom: 18px; }
+.caffe p { margin: 0 0 12px; }
+.pulsante {
+  display: inline-block; padding: 12px 22px; border-radius: 999px;
+  background: var(--accento); color: #fff; text-decoration: none; font-weight: 600;
+}
+.pulsante:hover { background: var(--accento-scuro); color: #fff; }
+.piede > .contenitore > .piccolo { text-align: center; margin: 0; }
+
+@media print {
+  .testata, .piede, .briciole, .strumenti { display: none; }
+  body { background: #fff; }
+  .colonne { grid-template-columns: 1fr 1.8fr; }
+}
