@@ -1,0 +1,30 @@
+# Configurazione tecnica del sito: di norma non serve toccarla.
+# Titolo, descrizione e link PayPal si cambiano in _data/sito.yml
+# (oppure da Pages CMS, voce "Impostazioni del sito").
+
+# Deve corrispondere al nome del repository su GitHub.
+# Se rinomini il repository, aggiorna anche questa riga.
+baseurl: "/ricettario"
+
+lang: it
+markdown: kramdown
+
+plugins:
+  - jekyll-sitemap
+
+collections:
+  ricette:
+    output: true
+    permalink: /ricette/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: ricette
+    values:
+      layout: ricetta
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
