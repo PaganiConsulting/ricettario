@@ -1,0 +1,87 @@
+# Configurazione di Pages CMS (app.pagescms.org):
+# definisce i moduli con cui si scrivono le ricette.
+
+media:
+  input: foto
+  output: /foto
+
+content:
+  - name: ricette
+    label: Ricette
+    type: collection
+    path: _ricette
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      primary: title
+      fields: [title, categoria]
+      sort: title
+      order: asc
+    fields:
+      - name: title
+        label: Nome della ricetta
+        type: string
+        required: true
+      - name: categoria
+        label: Categoria
+        type: select
+        required: true
+        options:
+          values: [Antipasti, Primi, Secondi, Contorni, Piatti unici, Dolci, Pane e lievitati, Conserve e salse, Bevande, Altro]
+      - name: foto
+        label: Foto
+        type: image
+        description: Facoltativa. Meglio orizzontale.
+      - name: porzioni
+        label: Porzioni (numero di persone)
+        type: number
+        description: "Solo il numero, per esempio 4"
+      - name: tempo
+        label: Tempo totale in minuti
+        type: number
+        description: "Solo il numero dei minuti, per esempio 90 per un'ora e mezza"
+      - name: introduzione
+        label: Due righe di presentazione
+        type: text
+        description: Facoltativa. Da dove viene la ricetta, perché ti piace.
+      - name: ingredienti
+        label: Ingredienti
+        type: string
+        list: true
+        required: true
+        description: "Un ingrediente per riga, con la quantità. Esempio: 320 g di spaghetti"
+      - name: passaggi
+        label: Procedimento
+        type: text
+        list: true
+        required: true
+        description: Un passaggio per riquadro, nell'ordine in cui si fanno.
+      - name: note
+        label: Note e varianti
+        type: text
+        description: Facoltative.
+
+  - name: sito
+    label: Impostazioni del sito
+    type: file
+    path: _data/sito.yml
+    format: yaml
+    fields:
+      - name: titolo
+        label: Titolo del sito
+        type: string
+        required: true
+      - name: descrizione
+        label: Sottotitolo
+        type: string
+      - name: autore
+        label: Il tuo nome
+        type: string
+        description: Facoltativo. Compare come autore delle ricette nei dati letti da Google.
+      - name: paypal
+        label: Link PayPal per il caffè
+        type: string
+        description: "Il tuo link PayPal.me, per esempio https://paypal.me/tuonome. Se lo lasci vuoto il pulsante non compare."
+      - name: testo_caffe
+        label: Frase sopra il pulsante del caffè
+        type: string
