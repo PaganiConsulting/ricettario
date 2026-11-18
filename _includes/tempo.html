@@ -1,0 +1,4 @@
+{%- assign t = include.minuti | plus: 0 -%}
+{%- assign ore = t | divided_by: 60 -%}
+{%- assign min = t | modulo: 60 -%}
+{%- if ore > 0 -%}{{ ore }} h{% if min > 0 %} {{ min }} min{% endif %}{%- else -%}{{ min }} minuti{%- endif -%}
